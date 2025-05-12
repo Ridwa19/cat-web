@@ -42,7 +42,7 @@ npm start
 
 ## 📬 Postman Collection
 
-📥 [Download Collection](#) *(Add link if exported)*
+📥 [Download Collection](https://github.com/Ridwa19/Service-Finder/blob/main/backend/postman/Home-Service-App.postman_collection.json)
 
 ### Base URL:
 ```
