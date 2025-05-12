@@ -128,5 +128,5 @@ Pull requests welcome. Make sure your routes are secure, tested, and documented 
 
 ---
 
-## 👨‍💻 Author
+## 👩‍💻 Author
 Built by **Ridwan** for the Home Service Finder Project – 2025.
