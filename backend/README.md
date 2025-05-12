@@ -1,103 +1,132 @@
-# Home Service App - Local Backend
+# 🛠️ Home Service App – Backend API
 
-This is a Node.js Express backend for the Home Service App that connects to a local MongoDB database. It provides API endpoints for user authentication, service management, and appointment booking.
+This is the complete Node.js, Express, and MongoDB backend for the **Home Service App** platform. It includes user authentication, service management, bookings, provider tools, admin dashboard, notifications, and analytics.
 
-## Prerequisites
+---
 
-- Node.js and npm installed
-- MongoDB installed locally (or accessible MongoDB server)
+## ✅ Getting Started
 
-## Setup Instructions
-
-1. **Install MongoDB Community Edition**
-
-   Download and install MongoDB Community Server from:
-   https://www.mongodb.com/try/download/community
-
-2. **Start MongoDB Server**
-
-   Start MongoDB server locally:
-   ```
-   mongod --dbpath=/path/to/your/data/folder
-   ```
-
-   Or if you've installed MongoDB as a service, make sure it's running.
-
-3. **Install Dependencies**
-
-   Navigate to the backend folder and install dependencies:
-   ```
-   cd backend
-   npm install
-   ```
-
-4. **Start the Server**
-
-   For development with auto-restart:
-   ```
-   npm run dev
-   ```
-
-   For production:
-   ```
-   npm start
-   ```
-
-   The server will start on port 3000 by default. You can change this by setting the PORT environment variable.
-
-## Connecting from Flutter App
-
-The Flutter app is configured to connect to the local Express server at `http://10.0.2.2:3000` (for Android emulator). If you're testing on a physical device, update the `baseUrl` in `lib/services/api_service.dart` to your computer's IP address.
-
-For example:
-```dart
-static const String baseUrl = 'http://192.168.1.100:3000/api';
+### 1. Clone the Repo
+```bash
+git clone https://github.com/your-username/home-service-app-backend.git
+cd home-service-app-backend
 ```
 
-## Default Accounts
+### 2. Install Dependencies
+```bash
+npm install
+```
 
-The server automatically creates a default admin account:
+### 3. Setup Environment Variables
+Create a `.env` file in the root:
+```env
+PORT=3000
+MONGODB_URI=mongodb://localhost:27017/home_service_app
+JWT_SECRET=your_super_secret_jwt_key
+JWT_EXPIRES_IN=1d
+```
 
-- **Admin User:**
-  - Email: admin@test.com
-  - Password: admin123
+### 4. Start MongoDB
+```bash
+sudo service mongod start   # or use Docker
+```
 
-## API Endpoints
+### 5. Run the Server
+```bash
+npm run dev   # for nodemon
+# or
+npm start
+```
 
-### Authentication
-- POST `/api/users/register` - Register a new user
-- POST `/api/providers/register` - Register a new service provider
-- POST `/api/users/login` - Login for users and providers
+---
 
-### Categories
-- GET `/api/categories` - Get all service categories
+## 📬 Postman Collection
 
-### Services
-- GET `/api/services` - Get all services
-- GET `/api/services/category/:category` - Get services by category
-- POST `/api/services` - Create a new service (provider only)
+📥 [Download Collection](#) *(Add link if exported)*
+
+### Base URL:
+```
+http://localhost:3000/api
+```
+
+### Auth Routes
+| Method | Endpoint              | Description       |
+|--------|------------------------|-------------------|
+| POST   | `/auth/register`       | Register a new user |
+| POST   | `/auth/login`          | Login and get token |
+
+### User Routes
+| Method | Endpoint                  | Description             |
+|--------|----------------------------|-------------------------|
+| PUT    | `/users/update`           | Update profile          |
+| GET    | `/users/email/:email`     | Get user by email       |
+| GET    | `/users/favorites`        | List favorites          |
+| POST   | `/users/favorites/:id`    | Add favorite            |
+| DELETE | `/users/favorites/:id`    | Remove favorite         |
+
+### Provider Routes
+| Method | Endpoint                    | Description                   |
+|--------|------------------------------|-------------------------------|
+| PATCH  | `/providers/availability`    | Toggle availability           |
+| PATCH  | `/providers/status`          | Toggle online status          |
+| PATCH  | `/providers/location`        | Update location               |
+| GET    | `/providers/location/:id`    | Get provider location         |
+| GET    | `/providers/nearby`          | Find nearby providers         |
+| GET    | `/providers/earnings`        | Earnings dashboard            |
+
+### Service Routes
+| Method | Endpoint                  | Description                   |
+|--------|----------------------------|-------------------------------|
+| POST   | `/services`               | Create new service            |
+| GET    | `/services`               | Get all services              |
+| GET    | `/services/category/:cat`| Filter by category            |
+| GET    | `/services/search?q=...` | Fuzzy search                  |
 
 ### Appointments
-- POST `/api/appointments` - Book a new appointment
-- GET `/api/appointments/user` - Get user's appointments
-- GET `/api/appointments/provider` - Get provider's appointments
-- PATCH `/api/appointments/:id` - Update appointment status
+| Method | Endpoint                  | Description                   |
+|--------|----------------------------|-------------------------------|
+| POST   | `/appointments`           | Book appointment              |
+| PATCH  | `/appointments/:id/status`| Update appointment status     |
+| GET    | `/appointments/user`      | Get user bookings             |
+| GET    | `/appointments/provider`  | Get provider requests         |
 
-### Admin Routes
-- GET `/api/admin/users` - Get all users (admin only)
-- PATCH `/api/admin/providers/:id/verify` - Verify a service provider (admin only)
+### Admin & Analytics
+| Method | Endpoint                  | Description                   |
+|--------|----------------------------|-------------------------------|
+| GET    | `/analytics/dashboard`    | Admin overview stats          |
+| GET    | `/analytics/services`     | Booking trends by service     |
 
-## Troubleshooting
+### Issues & Notifications
+| Method | Endpoint                  | Description                   |
+|--------|----------------------------|-------------------------------|
+| POST   | `/issues`                | Report issue                  |
+| GET    | `/issues`                | Admin get all issues          |
+| POST   | `/notifications`         | Send notification             |
+| GET    | `/notifications`         | Get user notifications        |
 
-1. **Database Connection Issues**
-   - Ensure MongoDB is running
-   - Check the connection string in `server.js`
+---
 
-2. **CORS Errors**
-   - The server has CORS enabled for all origins by default
-   - If needed, adjust the CORS settings in `server.js`
+## 🔐 Authentication
+Pass token in headers:
+```
+Authorization: Bearer <token>
+```
+Get token from `/auth/login`
 
-3. **Flutter Connection Issues**
-   - On physical devices, ensure your device and computer are on the same network
-   - Update the baseUrl to your computer's actual IP address
-   - Try disabling firewall or adding exceptions 
+---
+
+## ✅ Status
+- ✅ Fully running with `nodemon`
+- ✅ Connected to MongoDB
+- ✅ Admin, provider, and user roles supported
+- ✅ JWT-based authentication
+
+---
+
+## 🧠 Contributing
+Pull requests welcome. Make sure your routes are secure, tested, and documented in this README.
+
+---
+
+## 👨‍💻 Author
+Built by **Ridwan** for the Home Service Finder Project – 2025.
