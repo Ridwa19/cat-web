@@ -7,8 +7,7 @@ dotenv.config();
 
 const PORT = process.env.PORT || 3000;
 const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/home_service_app';
-const initDefaults = require('./utils/initDefaults');
-await initDefaults();
+
 const connectWithRetry = () => {
   console.log('Connecting to MongoDB...');
 
@@ -18,9 +17,12 @@ const connectWithRetry = () => {
     serverSelectionTimeoutMS: 5000,
     socketTimeoutMS: 45000
   })
-    .then(() => {
+    .then(async () => {
       console.log('✅ MongoDB connected');
-      initializeDefaults();
+      await initializeDefaults(); // ✅ move it here
+      app.listen(PORT, () => {
+        console.log(`🚀 Server running on http://localhost:${PORT}`);
+      });
     })
     .catch(err => {
       console.error('❌ MongoDB connection error:', err);
@@ -66,7 +68,3 @@ const initializeDefaults = async () => {
     console.error('❌ Initialization failed:', err);
   }
 };
-
-app.listen(PORT, () => {
-  console.log(`🚀 Server running on http://localhost:${PORT}`);
-});
